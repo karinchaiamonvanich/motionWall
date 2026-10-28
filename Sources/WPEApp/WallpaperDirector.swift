@@ -131,8 +131,9 @@ public final class WallpaperDirector {
         ) { [weak self] _ in self?.resumeAll() })
 
         // Displays connected/disconnected/resolution change → rebuild.
+        // (Defined on NSApplication, not NSScreen.)
         observers.append(nc.addObserver(
-            forName: NSScreen.didChangeScreenParametersNotification,
+            forName: NSApplication.didChangeScreenParametersNotification,
             object: nil, queue: .main
         ) { [weak self] _ in self?.reapply() })
     }

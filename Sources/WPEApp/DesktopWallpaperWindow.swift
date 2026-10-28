@@ -21,7 +21,7 @@ final class DesktopWallpaperWindow: NSWindow {
         contentView?.wantsLayer = true
         collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle]
         // Not part of the normal window cycle / no Window menu entries.
-        excludedFromWindowsMenu = true
+        isExcludedFromWindowsMenu = true
     }
 
     /// Re-fit when the screen's geometry changes (resolution, arrangement).
