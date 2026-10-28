@@ -38,7 +38,7 @@ final class WPEParserTests: XCTestCase {
 
     func testLZ4LiteralOnlyBlock() {
         // A block encoded as a single literal token (valid LZ4 block data)
-        let payload = Array("hello lz4 block".utf8)
+        let payload = Array("hello lz4".utf8)
         XCTAssertLessThan(payload.count, 15) // fits in one token nibble
         var block: [UInt8] = [UInt8(payload.count) << 4]
         block.append(contentsOf: payload)
@@ -46,8 +46,9 @@ final class WPEParserTests: XCTestCase {
     }
 
     func testLZ4OverlappingMatch() {
-        // Literal "a", then match offset 1 / length 6 -> run of 7 a's
-        let block: [UInt8] = [0x10, UInt8(ascii: "a"), 0x01, 0x00]
+        // Literal "a" (nibble 1), then match nibble 2 -> 2+4 = length 6,
+        // offset 1 -> run of 7 a's total
+        let block: [UInt8] = [0x12, UInt8(ascii: "a"), 0x01, 0x00]
         XCTAssertEqual(try? LZ4.decompress(block), Array(repeating: UInt8(ascii: "a"), count: 7))
     }
 

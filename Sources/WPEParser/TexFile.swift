@@ -107,7 +107,10 @@ public struct TexFile {
                                    unknown: unknown, storedBlobs: [], blobs: [])
                 images.append(current!)
             } else if record.hasPrefix("TEXB") {
-                let blobVersion = try r.readFixedSizeString(4).trimmingCharacters(in: .init(charactersIn: "\0"))
+                // The version lives inside the tag itself ("TEXB0003\0") —
+                // the byte-exact library sweep confirms no separate version
+                // field follows the 9-byte tag.
+                let blobVersion = String(record.dropFirst(4))   // "0003" / "0004"
                 guard var img = current else {
                     throw ParseError.invalidValue("tex: TEXB record before any TEXI")
                 }
