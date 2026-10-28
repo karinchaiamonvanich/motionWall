@@ -39,9 +39,10 @@ public struct TexFile {
         public let format: UInt32
         public let unknown: UInt32
         /// Payloads as stored in the file (still LZ4 when decompression failed/skipped).
-        public let storedBlobs: [Data]
+        /// Internal parser appends blobs incrementally — hence `var`.
+        public var storedBlobs: [Data]
         /// Payloads after LZ4 block decompression where it applied.
-        public let blobs: [Data]
+        public var blobs: [Data]
 
         public var isLZ4Compressed: Bool {
             !storedBlobs.isEmpty && !blobs.isEmpty && blobs[0].count != storedBlobs[0].count
