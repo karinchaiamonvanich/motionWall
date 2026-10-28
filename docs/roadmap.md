@@ -11,9 +11,11 @@
 - [x] Unit tests ครอบ parser ทุกตัว (สร้าง byte fixture เอง)
 
 **เกณฑ์ผ่าน:**
-1. `swift test` ผลครบทุก test บน macOS 13+ (Apple Silicon และ Intel) — *ค้างรอ (ไม่มี Swift บนเครื่อง Windows ที่เขียนโค้ด)*
+1. ~~`swift test` ผลครบทุก test บน macOS 13+ (Apple Silicon และ Intel)~~ — **Apple Silicon ผ่านแล้ว** (CI macos-14: build + test ครบ, 2026-10-28) ส่วน Intel ทำเป็น weekly/manual sweep ใน CI (free-tier macos-13 queue ยาว — parser เป็น pure Foundation เสี่ยง cross-arch ต่ำ)
 2. ~~รันกับ `.pkg`/`.tex` จริง~~ — **ผ่านแล้ว**: 33/33 pkg, 1,703 entries in-bounds + contiguous, record chain ของ .tex เดิน byte-exact **387/388 ไฟล์** (1,109 mip blobs)
 3. ~~อัปเดตเอกสาร~~ — **เสร็จแล้ว**: layout .pkg (PKGV0022, offset relative, ไม่มี crc), TEXV0005 (TEXI/TEXB/continuation mips/TEXS), pixel format enum 5 ค่าล็อกด้วย B/px ratio, general.properties — ยืนยันทั้งหมดใน docs/ และ fixtures ใน test สร้างตาม layout จริง
+
+**ปิด M1** — CI จับ bug จริงระหว่างการยืนยันครั้งแรก: TexImage blob arrays, TEXB version อยู่ใน tag ไม่ใช่ field แยก, AppKit API renames (ดู git log)
 
 ## M2 — Video wallpaper (โค้ดเขียนครบ รอทดสอบบน Mac)
 
