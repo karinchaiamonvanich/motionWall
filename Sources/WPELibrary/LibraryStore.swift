@@ -2,7 +2,10 @@ import Foundation
 import WPEParser
 
 /// One wallpaper found in the user's library.
-public struct WallpaperItem: Equatable {
+///
+/// Not `Equatable`: `ProjectJSON` holds untyped JSON dictionaries
+/// (`[String: Any]`). Identity is the folder `id` — compare that instead.
+public struct WallpaperItem {
     public let id: String          // folder name (workshop id for Steam content)
     public let url: URL            // wallpaper folder
     public let project: ProjectJSON
