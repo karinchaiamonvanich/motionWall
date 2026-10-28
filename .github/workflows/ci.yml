@@ -1,0 +1,30 @@
+name: CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:     # manual run — use this when Intel verification is wanted
+  schedule:
+    - cron: "0 4 * * 1"  # weekly Monday 04:00 UTC — cross-arch sweep
+
+jobs:
+  # Apple Silicon: every push (primary loop)
+  test-arm64:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: swift build
+      - name: Test
+        run: swift test
+
+  # Intel: weekly sweep + manual only — free-tier macos-13 queues are long,
+  # and parser code is pure Foundation (cross-arch risk minimal).
+  test-intel:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: swift build
+      - name: Test
+        run: swift test

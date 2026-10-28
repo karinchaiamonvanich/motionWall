@@ -1,0 +1,14 @@
+# Swift
+.build/
+.swiftpm/
+*.xcodeproj
+xcuserdata/
+DerivedData/
+Package.resolved
+
+# macOS
+.DS_Store
+
+# exploration artifacts
+*.o
+out/
